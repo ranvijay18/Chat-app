@@ -31,7 +31,7 @@ async function store(e){
 
     console.log(data);
 
-    // window.location.replace("login.html");
+    window.location.replace("login.html");
      
 
 }
