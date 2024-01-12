@@ -8,30 +8,6 @@ body{
     text-align: center;
 }
 
-#chatBody{
-    width:60%;
-    height: 500px;
-    
-    background-color: azure;
-    margin-left: 280px;
-    border-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-}
-#chats{
-    padding: 10px;
-    height: calc(100% - 50px); 
-    overflow-y:auto;
-    color:black;
-}
-
-/* #chatForm{
-    position: fixed;
-  bottom: 0;
-  width: 100%;
-  padding: 10px;
-  z-index: 1; 
-} */
-
 
 input{
     height:30px;
@@ -42,7 +18,7 @@ input{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-#sendChat{
+#sendBtn{
     border: none;
     outline: none;
     color: white;
@@ -51,3 +27,50 @@ input{
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    margin: 0px 300px;
+    border-radius: 20px;
+    background-color: azure;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  }
+  
+  #chat-window {
+    flex: 1; 
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 20px;
+    background-image: url("../img/bg1.jpg");
+  }
+  
+  #send-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 30px;
+    position: sticky; 
+    top: 0; 
+    width: 90%;
+    z-index: 1;
+  }
+  
+
+  p{
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     color: black;  
+  }
+
+  #message-container {
+    display: block; /* Allow for flexible width */
+    padding: 0.1px 10px;
+    width: 30%;
+    border-radius: 8px;
+    background-color: #fafafa;
+    margin-bottom: 10px;
+    word-wrap: break-word; /* Prevent long words from overflowing */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
+  }

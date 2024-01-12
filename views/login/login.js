@@ -37,7 +37,7 @@ async function check(e){
 
     if(data === true){
         alert("User is Logged In");
-        window.location.href = ("../expense/index.html");
+        window.location.href = ("../chat/chat.html");
     }else if(data === false){
         console.log("Wrong Password");
     }else{
