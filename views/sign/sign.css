@@ -1,8 +1,6 @@
 body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color:blueviolet;
-    background-image: url("../img/bg.jpg");
-    background-repeat: no-repeat;
    background-position: center;
 }
 

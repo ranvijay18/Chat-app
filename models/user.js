@@ -19,16 +19,14 @@ const User = sequelize.define('user' , {
         unique: true,
     },
     phone:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         allowNull: false,
         unique: true
     },
     password: {
         type: Sequelize.STRING,
         allowNull : false,
-    },
-    ispremium: Sequelize.BOOLEAN,
-    totalExpenses: Sequelize.INTEGER
+    }
 })
 
 module.exports = User;

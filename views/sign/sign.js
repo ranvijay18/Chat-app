@@ -23,14 +23,15 @@ async function store(e){
         phone,
         password
     }
+    console.log(obj);
 
-    const res = await axios.post('http://localhost:6000/user', obj)
+    const res = await axios.post('http://localhost:4000/user', obj)
     
     const data = res.data;
 
     console.log(data);
 
-    window.location.replace("login.html");
+    // window.location.replace("login.html");
      
 
 }

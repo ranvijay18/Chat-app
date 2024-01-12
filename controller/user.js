@@ -1,4 +1,4 @@
-const User = require('../model/user');
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
@@ -38,8 +38,6 @@ bcrypt.hash(password, 10, async function(err, hash) {
         email: email,
         phone: phone,
         password: hash,
-        ispremium: false,
-        totalExpenses: 0
     })
     
 })
