@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet"
+          href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Login</title>
+</head>
+<body>
+    <button id="btnSign">Sign Up</button>
+    <div class="container">
+        <h1>Login</h1>
+        <form class="sign" id="loginForm">
+            <i class="fa fa-envelope icon"></i>
+            <input type="text" name="email" placeholder="Email" size="30"><br>
+            <i class="fa fa-phone icon"></i>
+            <input type="text" name="phone" placeholder="Phone" size="30" required><br>
+            <i class="fa fa-lock icon"></i>
+            <input type="password" name="password" placeholder="Password" size="30"><br>
+            <i class="fa fa-lock icon"></i>
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" size="30"><br>
+            <a href="../forget/forget.html">Forget Password?</a>
+            <button class="btnLogin" type="submit">Login</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js" integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="login.js"></script>
+</body>
+</html>
