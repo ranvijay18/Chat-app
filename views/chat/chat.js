@@ -5,14 +5,20 @@ const sendButton = document.querySelector('#send-chat');
 let token;
 
 
-window.addEventListener("DOMContentLoaded", async ()=> {
+window.addEventListener("DOMContentLoaded",()=> {
   token = localStorage.getItem("token");
-         const res = await axios.get('http://localhost:4000/all-messages', {headers: {"Authorization": token}});
-         const allMessages = res.data;
+  chatWindow.scrollIntoView({ behavior: 'smooth' });
+  setInterval(async () => {
+       while (chatWindow.firstChild) {
+        chatWindow.removeChild(chatWindow.firstChild);
+      }
+    const res = await axios.get('http://localhost:4000/all-messages', {headers: {"Authorization": token}});
+    const allMessages = res.data;
 
-         allMessages.forEach(ele => {
-          showGetMessages(ele);
-         });
+    allMessages.forEach(ele => {
+     showGetMessages(ele);
+    });
+  },5000);
          
 })
 
