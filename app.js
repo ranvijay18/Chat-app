@@ -13,9 +13,19 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const userRouter = require('./routes/user');
+const chatRouter = require('./routes/chat');
+
+const User = require('./models/user');
+const Chat = require('./models/chats');
 
 
 app.use(userRouter);
+app.use(chatRouter);
+
+
+User.hasMany(Chat);
+Chat.belongsTo(User);
+
 
 
 sequelize.sync()
