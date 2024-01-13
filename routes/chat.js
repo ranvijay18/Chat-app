@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const chatController = require('../models/chats');
+const chatController = require('../controller/chat');
 const authentication = require('../middleware/auth');
 
-router.post('/message', authentication.authenticate,chatController.postChats);
+router.post('/message', chatController.postChats);
+
 
 
 

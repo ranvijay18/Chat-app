@@ -2,6 +2,11 @@ const chatWindow = document.querySelector('#chat-window');
 const sendInput = document.querySelector('#chat');
 const sendButton = document.querySelector('#send-chat');
 
+
+window.addEventListener("DOMContentLoaded", ()=> {
+  
+})
+
 sendButton.addEventListener('submit', async (e) => {
 
     e.preventDefault();
@@ -10,9 +15,10 @@ sendButton.addEventListener('submit', async (e) => {
     const obj = {
       mes
     }
-      const res = axios.post("http://localhost:4000/message", obj);
-      const message =  res.data.message
+      const res = await axios.post("http://localhost:4000/message", obj);
+      const message =  res.data.message.messages;
   sendInput.value = '';
+
 
   var messageContainer = document.createElement('div');
   messageContainer.id = "message-container";

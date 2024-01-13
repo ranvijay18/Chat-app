@@ -7,7 +7,6 @@ exports.postChats = (req,res,next) => {
 
     Chat.create({
         messages: messages,
-        userId: req.user.id
     })
     .then(message => {
         res.status(201).json({message: message})
