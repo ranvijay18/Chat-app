@@ -2,9 +2,18 @@ const chatWindow = document.querySelector('#chat-window');
 const sendInput = document.querySelector('#chat');
 const sendButton = document.querySelector('#send-chat');
 
+let token;
 
-window.addEventListener("DOMContentLoaded", ()=> {
-  
+
+window.addEventListener("DOMContentLoaded", async ()=> {
+  token = localStorage.getItem("token");
+         const res = await axios.get('http://localhost:4000/all-messages', {headers: {"Authorization": token}});
+         const allMessages = res.data;
+
+         allMessages.forEach(ele => {
+          showGetMessages(ele);
+         });
+         
 })
 
 sendButton.addEventListener('submit', async (e) => {
@@ -17,17 +26,35 @@ sendButton.addEventListener('submit', async (e) => {
     }
       const res = await axios.post("http://localhost:4000/message", obj);
       const message =  res.data.message.messages;
+      const user = res.data.username;
   sendInput.value = '';
+  
+  showPostMessage(message,user);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+});
 
+
+function showGetMessages(res){
 
   var messageContainer = document.createElement('div');
   messageContainer.id = "message-container";
 
   var p = document.createElement('p');
   p.className = "message";
-  p.textContent = message;
+  p.textContent = res.user['username']+": "+res['messages'];
   messageContainer.appendChild(p);
 
   chatWindow.appendChild(messageContainer);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-});
+}
+
+function showPostMessage(mes , user){
+  var messageContainer = document.createElement('div');
+  messageContainer.id = "message-container";
+
+  var p = document.createElement('p');
+  p.className = "message";
+  p.textContent = user+": "+mes;
+  messageContainer.appendChild(p);
+
+  chatWindow.appendChild(messageContainer);
+}

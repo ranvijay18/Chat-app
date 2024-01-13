@@ -19,14 +19,15 @@ async function isExists(emailSearch) {
     }
 }
 
-function generateAccessToken(id) {
-    return jwt.sign({ userId: id }, process.env.JWT_SECRET_KEY)
+function generateAccessToken(id, username) {
+    return jwt.sign({ userId: id , username: username}, process.env.JWT_SECRET_KEY)
 }
 
 exports.postUser = async (req, res, next) => {
 
     const username = req.body.username;
     const email = req.body.email;
+    const phone = req.body.phone;
     const password = req.body.password;
 
     const check = await isExists(email);
@@ -38,6 +39,7 @@ exports.postUser = async (req, res, next) => {
             await User.create({
                 username: username,
                 email: email,
+                phone:phone,
                 password: hash,
                 ispremium: false,
                 totalExpenses: 0
@@ -63,7 +65,7 @@ exports.postLogin = async (req, res, next) => {
 
         bcrypt.compare(password, check.password, function (err, result) {
             if (result == true) {
-                res.status(201).json({ status: true, token: generateAccessToken(check.id) });
+                res.status(201).json({ status: true, token: generateAccessToken(check.id, check.username) });
             } else {
                 res.status(201).json({ status: false });
             }
