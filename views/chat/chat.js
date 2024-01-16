@@ -5,6 +5,9 @@ const createGroup = document.getElementById('create-group');
 const showGroups = document.getElementById('show-groups');
 const groupHeading = document.getElementById('group-head-name');
 const joinGroup = document.getElementById('join-group');
+const extraDetails = document.getElementById('details');
+const extraFeature = document.getElementById('extra-features');
+const sendContainer = document.getElementById('send-container')
 
 let token;
 let arrMessages = [];
@@ -163,5 +166,19 @@ joinGroup.addEventListener('submit', async (e)=> {
     alert("Something gone wrong");
   }
 })
+
+
+//admin power
+extraDetails.addEventListener("click", (e) => {
+  alert("hello");
+  e.preventDefault();
+  while (chatWindow.firstChild) {
+    chatWindow.removeChild(chatWindow.firstChild);
+  }
+  while (sendContainer.firstChild) {
+    sendContainer.removeChild(sendContainer.firstChild);
+  }
+  extraFeature.style.display="inline-flex";
+});
 
 
