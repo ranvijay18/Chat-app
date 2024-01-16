@@ -27,9 +27,7 @@ async function store(e){
 
     const res = await axios.post('http://localhost:4000/user', obj)
     
-    const data = res.data;
-
-    console.log(data);
+    alert('Account is created successfully. Now you can login')
 
     window.location.replace("../login/login.html");
      

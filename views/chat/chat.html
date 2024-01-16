@@ -11,7 +11,16 @@
     <div class="head">
         <h1>Let's Chat</h1>
     </div>
+    <div class ="flex-box">
+    <div class="group-list">
+        <h1 style="text-align: center; margin-top: 0px;">Groups</h1>
+        <div id="show-groups">
+          
+        </div>
+    </div>
     <div id="chat-container">
+        <h1 id="group-head-name"> Select a group
+        </h1>
         <div id="chat-window">
             <div id="message-container">
             </div>
@@ -24,6 +33,21 @@
         </div>
 
     </div>
+
+    <div class="group">
+        <h1 style="text-align: center; margin-top: 50px;">Create Group</h1>
+        <form id="create-group">
+            <input type="text" name="group" id="group-name" size="30" placeholder="Group Name" required>
+            <button id="add-group" type="submit">Create Group</button>
+        </form>
+
+        <h1 style="text-align: center; margin-top: 50px;">Join Group</h1>
+        <form id="join-group">
+            <input type="text" name="joinGroup" id="join-group-name" size="30" placeholder="Group Name" required>
+            <button id="add-group" type="submit">Join Group</button>
+        </form>
+    </div>
+</div>
     
 
 

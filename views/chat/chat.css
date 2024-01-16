@@ -32,13 +32,14 @@ input{
     display: flex;
     flex-direction: column;
     height: 500px;
-    margin: 0px 300px;
+    margin-left: 20px;
     border-radius: 20px;
     background-color: azure;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
   }
   
   #chat-window {
+    margin-top: 40px;
     flex: 1; 
     overflow-y: auto;
     padding: 10px;
@@ -51,10 +52,10 @@ input{
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    margin-left: 30px;
+    margin-left: 10px;
     position: sticky; 
     top: 0; 
-    width: 90%;
+    width: 100%;
     z-index: 1;
   }
   
@@ -74,3 +75,85 @@ input{
     word-wrap: break-word; /* Prevent long words from overflowing */
     box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
   }
+
+.group-list{
+   width:300px;
+   height: 500px;
+   background-color: azure;
+   border-radius: 20px;
+   color: blueviolet;
+   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+   overflow-y: auto;
+}
+
+.flex-box{
+  display: inline-flex;
+
+}
+
+.group{
+ margin-left: 20px;
+ border-radius: 20px;
+ width: 300px;
+ background-color: azure;
+   border-radius: 20px;
+   color: blueviolet;
+   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+   height: 500px;
+}
+
+#group-name{
+  margin-left: 23px;
+  
+}
+
+#add-group{
+  border: none;
+  outline: none;
+  color: white;
+  background-color: blueviolet;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-top:20px;
+  margin-left: 89px;
+}
+#show-groups{
+  margin-top:-20px;
+}
+
+#show-groups button{
+  margin-left: 35px;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 20px 10px 20px 10px;
+  border: none;
+  border-radius: 20px;
+  background-color: rgba(137, 43, 226, 0.474);
+  width: fit-content;
+  min-width: 230px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+ color: rgba(0, 0, 0, 0.56);
+}
+
+#show-groups button:hover{
+  background-color: blueviolet;
+  color: #fafafa;
+}
+
+#group-head-name{
+  color:blueviolet;
+  text-align: center;
+  background-color: rgb(127, 255, 212);
+  position: fixed; 
+  margin-top: -3px;
+  border-radius: 20px;
+  min-width: 705px;
+
+}
+
+#join-group-name{
+  margin-left: 23px;
+}

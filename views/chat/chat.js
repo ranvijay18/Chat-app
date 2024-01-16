@@ -1,73 +1,167 @@
 const chatWindow = document.querySelector('#chat-window');
 const sendInput = document.querySelector('#chat');
 const sendButton = document.querySelector('#send-chat');
+const createGroup = document.getElementById('create-group');
+const showGroups = document.getElementById('show-groups');
+const groupHeading = document.getElementById('group-head-name');
+const joinGroup = document.getElementById('join-group');
 
 let token;
+let arrMessages = [];
+let userId;
+let groupId;
 
+//show all messages when user login
+async function getChats(data) {
+  const allMessages = data.chat;
 
-window.addEventListener("DOMContentLoaded",async ()=> {
-  token = localStorage.getItem("token");
- 
-  
-  setInterval(async () => {
-       while (chatWindow.firstChild) {
-        chatWindow.removeChild(chatWindow.firstChild);
-      }
-  const res = await axios.get('http://localhost:4000/all-messages', {headers: {"Authorization": token}});
-  const allMessages = res.data;
+  allMessages.forEach(ele => {
+    let obj = {
+      message: ele.messages,
+      user: ele.user.username
+    }
 
-   const arr = JSON.stringify(allMessages);
-   localStorage.setItem('arrData', arr);
-   const storedJsonString = localStorage.getItem('arrData');
-   const resultArr = JSON.parse(storedJsonString);
-
-resultArr.forEach(ele => {
-   showGetMessages(ele);
+    arrMessages.push(obj);
   });
+  arrMessages.forEach(ele => {
+    showMessages(ele);
+  })
 
-  },5000);
-         
-})
+  localStorage.setItem('arrData', JSON.stringify(arrMessages));
 
+
+
+
+  // setInterval(async () => {
+
+  //   const newArrData = JSON.parse(localStorage.getItem('arrData'));
+
+  //   const size = newArrData.length;
+  //     const res = await axios.get(`http://localhost:4000/new-message/${groupId}/${size}`,{headers: {"Authorization": token}});
+  //     const newData = res.data;
+  //      console.log(newData);
+    //   const mes = newData.messages;
+    //   const user = newData.user.username;
+
+    //   let obj = {
+    //     message: mes,
+    //     user: user
+    //   }
+    //   newArrData.push(obj);
+
+    //   localStorage.setItem('arrData', JSON.stringify(newArrData));
+    //   while (chatWindow.firstChild) {
+    //     chatWindow.removeChild(chatWindow.firstChild);
+    // }
+    //   newArrData.forEach(ele => {
+    //     showMessages(ele);
+    // })
+  // },1000);
+
+};
+
+//add-new message
 sendButton.addEventListener('submit', async (e) => {
 
-    e.preventDefault();
-  
-    const mes = e.target.chat.value;
-    const obj = {
-      mes
-    }
-      const res = await axios.post("http://localhost:4000/message", obj);
-      const message =  res.data.message.messages;
-      const user = res.data.username;
+  e.preventDefault();
+  const mes = e.target.chat.value;
+  const obj = {
+    mes
+  }
+  const res = await axios.post(`http://localhost:4000/add-message/${userId}/${groupId}`, obj);
   sendInput.value = '';
-  
-  showPostMessage(message,user);
   chatWindow.scrollTop = chatWindow.scrollHeight;
 });
 
-
-function showGetMessages(res){
-
+//show message function
+function showMessages(res) {
   var messageContainer = document.createElement('div');
   messageContainer.id = "message-container";
 
   var p = document.createElement('p');
   p.className = "message";
-  p.textContent = res.user['username']+": "+res['messages'];
+  p.textContent = res['user'] + ": " + res['message'];
   messageContainer.appendChild(p);
 
   chatWindow.appendChild(messageContainer);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
-function showPostMessage(mes , user){
-  var messageContainer = document.createElement('div');
-  messageContainer.id = "message-container";
+//create group
 
-  var p = document.createElement('p');
-  p.className = "message";
-  p.textContent = user+": "+mes;
-  messageContainer.appendChild(p);
+createGroup.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const groupName = e.target.group.value;
+  const obj = {
+    groupName
+  }
 
-  chatWindow.appendChild(messageContainer);
-}
+  const res = await axios.post(`http://localhost:4000/create-group/${userId}`, obj);
+
+  const status = res.data.status;
+
+  if (status) {
+    alert("Group is created successfully");
+  } else {
+    alert("Something gone wrong");
+  }
+})
+
+//show groups
+
+window.addEventListener("DOMContentLoaded", async () => {
+  token = localStorage.getItem("token");
+  const res = await axios.get('http://localhost:4000/show-groups', { headers: { "Authorization": token } });
+
+  userId = res.data.user;
+  res.data.groups.forEach(ele => {
+
+    var button = document.createElement('button');
+    button.id = ele['id']
+    button.textContent = ele['groupName'];
+    showGroups.appendChild(button);
+
+    var br = document.createElement('br');
+    showGroups.appendChild(br);
+
+
+    button.addEventListener("click", async (e) => {
+      e.preventDefault();
+      while (chatWindow.firstChild) {
+        chatWindow.removeChild(chatWindow.firstChild);
+      }
+      const id = ele['id'];
+      token = localStorage.getItem("token");
+      const res = await axios.get(`http://localhost:4000/group-messages/${id}`, { headers: { "Authorization": token } });
+      console.log(res.data);
+      userId = res.data.userId;
+      groupId = res.data.group.id;
+     
+      groupHeading.textContent = res.data.group.groupName;
+     arrMessages = [];
+      getChats(res.data);
+
+    })
+  })
+})
+
+
+//join group
+joinGroup.addEventListener('submit', async (e)=> {
+  e.preventDefault();
+  console.log(userId);
+  const groupLink = e.target.joinGroup.value;
+  token = localStorage.getItem("token");
+
+  const res = await axios.get(`${groupLink}`, { headers: { "Authorization": token } });
+
+  const status = res.data.status;
+
+  if (status) {
+    alert("You join to group successfully");
+  } else {
+    alert("Something gone wrong");
+  }
+})
+
+

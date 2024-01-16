@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 const chatController = require('../controller/chat');
-const authentication = require('../middleware/auth');
 
-router.get('/all-messages',authentication.authenticate, chatController.getChats);
+const {auth} = require('../middleware/auth');
 
-router.post('/message', chatController.postChats);
+
+
+router.get('/new-message/:groupId/:size',auth, chatController.getNewMessage);
+
+router.post('/add-message/:id/:groupId', chatController.postChats);
 
 
 
