@@ -7,7 +7,9 @@ const groupHeading = document.getElementById('group-head-name');
 const joinGroup = document.getElementById('join-group');
 const extraDetails = document.getElementById('details');
 const extraFeature = document.getElementById('extra-features');
-const sendContainer = document.getElementById('send-container')
+const sendContainer = document.getElementById('send-container');
+const chatContainer = document.getElementById('chat-container');
+const flexBox = document.getElementById('flex-box');
 
 let token;
 let arrMessages = [];
@@ -134,15 +136,17 @@ window.addEventListener("DOMContentLoaded", async () => {
         chatWindow.removeChild(chatWindow.firstChild);
       }
       const id = ele['id'];
+       localStorage.setItem("groupId", ele['id']);
       token = localStorage.getItem("token");
       const res = await axios.get(`http://localhost:4000/group-messages/${id}`, { headers: { "Authorization": token } });
-      console.log(res.data);
       userId = res.data.userId;
       groupId = res.data.group.id;
-     
       groupHeading.textContent = res.data.group.groupName;
      arrMessages = [];
       getChats(res.data);
+      const checkAdmin = await axios.get(`http://localhost:4000/isAdmin/${res.data.group.id}/${userId}`);
+      localStorage.setItem("isAdmin",checkAdmin.data.status);
+      console.log(checkAdmin.data);
 
     })
   })
@@ -169,16 +173,136 @@ joinGroup.addEventListener('submit', async (e)=> {
 
 
 //admin power
-extraDetails.addEventListener("click", (e) => {
-  alert("hello");
+extraDetails.addEventListener("click", async (e) =>{
   e.preventDefault();
-  while (chatWindow.firstChild) {
-    chatWindow.removeChild(chatWindow.firstChild);
+  const checkAdmin = localStorage.getItem("isAdmin");
+console.log(checkAdmin);
+  if(checkAdmin === "true"){
+    while (chatWindow.firstChild) {
+      chatWindow.removeChild(chatWindow.firstChild);
+    }
+    while (sendContainer.firstChild) {
+      sendContainer.removeChild(sendContainer.firstChild);
+    }
+    const gId = localStorage.getItem("groupId");
+  
+    const resUser = await axios.get(`http://localhost:4000/get-member/${gId}`, { headers: { "Authorization": token }});
+   console.log(resUser.data);
+    
+    var div1 = document.createElement('div');
+    div1.id = "members";
+  
+    var h1 = document.createElement('h1');
+    h1.textContent = "Members";
+    div1.appendChild(h1);
+  
+    var ul = document.createElement('ul');
+    
+    //add member list
+    resUser.data.forEach(ele => {
+      var li = document.createElement('li');
+      li.textContent = ele.username;
+      ul.appendChild(li);
+    })
+  
+    div1.appendChild(ul);
+    extraFeature.appendChild(div1);
+  
+    var div2 = document.createElement('div');
+    div2.id = "addingFeature";
+    extraFeature.appendChild(div2);
+  
+    var form = document.createElement('form');
+    form.id = "add-member";
+    div2.appendChild(form);
+  
+     var label = document.createElement('label');
+     label.textContent = "Add Member";
+     form.appendChild(label);
+  
+     var br = document.createElement('br')
+     form.appendChild(br);
+  
+     var input = document.createElement('input');
+     input.type = "text";
+     input.name = "userEmail";
+     input.placeholder = "User Email";
+     input.size = "20";
+     form.appendChild(input);
+  
+     var button = document.createElement('button');
+     button.type = "submit";
+     button.id = "addBtn";
+     button.textContent = "Search"
+     form.appendChild(button);
+  
+     var div3 = document.createElement('div');
+      div3.id  = "searchedMember";
+      div2.appendChild(div3);
+  
+  
+     const addMember = document.getElementById('add-member');
+     const searchedMember = document.getElementById('searchedMember');
+  
+     addMember.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      while (searchedMember.firstChild) {
+        searchedMember.removeChild(searchedMember.firstChild);
+      }
+      const email = e.target.userEmail.value;
+      const res = await axios.get(`http://localhost:4000/get-user/${email}`, { headers: { "Authorization": token } });
+      console.log(res.data);
+  
+      var button2 = document.createElement('button');
+      button2.id = res.data.id;
+   button2.textContent= res.data.username;
+   div3.appendChild(button2);
+   const user = res.data.username;
+  
+   button2.addEventListener('click', () => {
+      const dialog = document.createElement("dialog");
+      dialog.innerHTML = `
+        <p>Would you like to add or remove ${user}?</p>
+        <button id="addMBtn">Add</button>
+        <button id="addAdmin">Make Admin</button>
+        <button id="removeMBtn">Remove</button>
+      `;
+    
+      dialog.addEventListener("click",async  (event) => {
+        const userId = res.data.id;
+        const gId = localStorage.getItem("groupId");
+        const obj = {
+     userId,
+     gId
+        }
+        if (event.target.id === "addMBtn") {
+          const addM = await axios.post(`http://localhost:4000/add-new-user`, obj);
+          var li = document.createElement('li');
+          li.textContent = user;
+          ul.appendChild(li);
+         alert(addM.data);
+         
+        } else if (event.target.id === "removeMBtn") {
+          const removeM = await axios.get(`http://localhost:4000/remove-user/${userId}/${gId}`, { headers: { "Authorization": token } });
+          alert(removeM.data);
+        }else if(event.target.id === "addAdmin"){
+            const addAdmin = await axios.get(`http://localhost:4000/add-admin/${userId}/${gId}`, { headers: { "Authorization": token } });
+            alert(addAdmin.data);
+        }
+        dialog.close();
+      });
+    
+      document.body.appendChild(dialog);
+      dialog.showModal();
+   })
+  
+    })
+  }else{
+    alert("You are not a admin of this group");
   }
-  while (sendContainer.firstChild) {
-    sendContainer.removeChild(sendContainer.firstChild);
-  }
-  extraFeature.style.display="inline-flex";
+ 
+
+
 });
 
 

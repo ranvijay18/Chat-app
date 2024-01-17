@@ -46,7 +46,7 @@ input{
     border-radius: 20px;
     background-image: url("../img/bg1.jpg");
   }
-  .chat-window::-webkit-scrollbar {
+  #chat-window::-webkit-scrollbar {
     display: none; 
   }
   
@@ -157,6 +157,7 @@ input{
   margin-top: -3px;
   border-radius: 20px;
   min-width: 670px;
+  height: 50px;
 
 }
 
@@ -183,7 +184,6 @@ input{
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   overflow-y: auto;
-  margin-top: 10px;
 }
 #members::-webkit-scrollbar {
   display: none; 
@@ -200,13 +200,12 @@ input{
 }
 
 #extra-features{
-  /* display: inline-flex; */
-  display: none;
+  display: inline-flex;
 }
 
 #add-member{
   margin-top: 50px;
-  margin-left: 20px;
+  margin-left: 30px;
 }
 
 #add-member label{
@@ -216,16 +215,63 @@ input{
  margin-left: 30px;
 }
 
-#searchedMember{
+
+#searchedMember button{
   margin-top: 30px;
-  margin-left: 30px;
-  background-color: rgba(137, 43, 226, 0.519);
-  padding: 10px;
- width: 200px;
- border-radius: 20px;
+  margin-left: 35px;
+  color: #fafafa;
+  background-color: rgba(137, 43, 226, 0.622);
+  font-size:17px;
+  border: none;
+  padding: 10px 100px 10px 15px;
+  border-radius: 20px;
 }
 
-#searchedMember p{
-  color: #fafafa;
-  font-size: large;
+#addBtn{
+  border: none;
+    outline: none;
+    color: white;
+    background-color: blueviolet;
+    padding: 10px 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: 10px;
+    margin-left: 2px;
 }
+
+#addMBtn{
+  border: none;
+    outline: none;
+    color: white;
+    background-color: rgb(6, 242, 46);
+    padding: 10px 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    margin-top: 10px;
+    margin-left: 2px;
+}
+
+#removeMBtn{
+  border: none;
+  outline: none;
+  color: white;
+  background-color: rgb(242, 16, 16);
+  padding: 10px 10px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-top: 10px;
+  margin-left: 2px;
+}
+
+#addAdmin{
+  border: none;
+  outline: none;
+  color: white;
+  background-color: rgb(242, 204, 16);
+  padding: 10px 10px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-top: 10px;
+  margin-left: 2px;
+}
+

@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const Sib = require('sib-api-v3-sdk');
 const Forget = require('../models/forget');
+const Group = require('../models/group');
 require("dotenv").config();
 
 let testUserId;
@@ -154,4 +155,23 @@ exports.postResetPassword = async (req, res, next) => {
     })
 
     res.status(201).json("true");
+}
+
+exports.getUser = (req, res) => {
+    User.findAll({where: {email: req.params.email}})
+    .then(user => {
+        res.status(201).json(user[0]);
+    })
+    .catch(err=> {
+        console.log(err);
+    })
+}
+
+exports.getMember= async (req,res) => {
+
+    const group = await Group.findByPk(req.params.gId);
+    const users = await group.getUsers();
+   
+        res.status(201).json(users);
+    
 }

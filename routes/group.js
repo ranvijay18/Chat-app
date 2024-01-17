@@ -13,6 +13,15 @@ router.get('/group-messages/:id',auth,groupController.getMessages);
 
 router.get('/join-group/:id',auth, groupController.joinGroup);
 
+router.post('/add-new-user', groupController.addNewMember);
+
+router.get('/remove-user/:userId/:gId',auth, groupController.removeUser);
+
+router.get('/add-admin/:userId/:gId', auth, groupController.addAdmin);
+
+router.get('/isAdmin/:groupId/:userId', groupController.getIsAdmin);
+
+
 
 
 
