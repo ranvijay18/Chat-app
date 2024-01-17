@@ -42,7 +42,7 @@ async function getChats(data) {
   //   const newArrData = JSON.parse(localStorage.getItem('arrData'));
 
   //   const size = newArrData.length;
-  //     const res = await axios.get(`http://localhost:4000/new-message/${groupId}/${size}`,{headers: {"Authorization": token}});
+  //     const res = await axios.get(`http://13.232.159.145/new-message/${groupId}/${size}`,{headers: {"Authorization": token}});
   //     const newData = res.data;
   //      console.log(newData);
     //   const mes = newData.messages;
@@ -73,7 +73,7 @@ sendButton.addEventListener('submit', async (e) => {
   const obj = {
     mes
   }
-  const res = await axios.post(`http://localhost:4000/add-message/${userId}/${groupId}`, obj);
+  const res = await axios.post(`http://13.232.159.145/add-message/${userId}/${groupId}`, obj);
   sendInput.value = '';
   chatWindow.scrollTop = chatWindow.scrollHeight;
 });
@@ -101,12 +101,13 @@ createGroup.addEventListener('submit', async (e) => {
     groupName
   }
 
-  const res = await axios.post(`http://localhost:4000/create-group/${userId}`, obj);
+  const res = await axios.post(`http://13.232.159.145/create-group/${userId}`, obj);
 
   const status = res.data.status;
 
   if (status) {
     alert("Group is created successfully");
+    location.reload();
   } else {
     alert("Something gone wrong");
   }
@@ -116,7 +117,7 @@ createGroup.addEventListener('submit', async (e) => {
 
 window.addEventListener("DOMContentLoaded", async () => {
   token = localStorage.getItem("token");
-  const res = await axios.get('http://localhost:4000/show-groups', { headers: { "Authorization": token } });
+  const res = await axios.get('http://13.232.159.145/show-groups', { headers: { "Authorization": token } });
 
   userId = res.data.user;
   res.data.groups.forEach(ele => {
@@ -138,13 +139,13 @@ window.addEventListener("DOMContentLoaded", async () => {
       const id = ele['id'];
        localStorage.setItem("groupId", ele['id']);
       token = localStorage.getItem("token");
-      const res = await axios.get(`http://localhost:4000/group-messages/${id}`, { headers: { "Authorization": token } });
+      const res = await axios.get(`http://13.232.159.145/group-messages/${id}`, { headers: { "Authorization": token } });
       userId = res.data.userId;
       groupId = res.data.group.id;
       groupHeading.textContent = res.data.group.groupName;
      arrMessages = [];
       getChats(res.data);
-      const checkAdmin = await axios.get(`http://localhost:4000/isAdmin/${res.data.group.id}/${userId}`);
+      const checkAdmin = await axios.get(`http://13.232.159.145/isAdmin/${res.data.group.id}/${userId}`);
       localStorage.setItem("isAdmin",checkAdmin.data.status);
       console.log(checkAdmin.data);
 
@@ -178,16 +179,17 @@ extraDetails.addEventListener("click", async (e) =>{
   const checkAdmin = localStorage.getItem("isAdmin");
 console.log(checkAdmin);
   if(checkAdmin === "true"){
-    while (chatWindow.firstChild) {
-      chatWindow.removeChild(chatWindow.firstChild);
-    }
-    while (sendContainer.firstChild) {
-      sendContainer.removeChild(sendContainer.firstChild);
+    while (chatContainer.firstChild) {
+      chatContainer.removeChild(chatContainer.firstChild);
     }
     const gId = localStorage.getItem("groupId");
   
-    const resUser = await axios.get(`http://localhost:4000/get-member/${gId}`, { headers: { "Authorization": token }});
+    const resUser = await axios.get(`http://13.232.159.145/get-member/${gId}`, { headers: { "Authorization": token }});
    console.log(resUser.data);
+
+   var div0 = document.createElement('div');
+   div0.id= "extra-features";
+   chatContainer.appendChild(div0);
     
     var div1 = document.createElement('div');
     div1.id = "members";
@@ -206,18 +208,18 @@ console.log(checkAdmin);
     })
   
     div1.appendChild(ul);
-    extraFeature.appendChild(div1);
+    div0.appendChild(div1);
   
     var div2 = document.createElement('div');
     div2.id = "addingFeature";
-    extraFeature.appendChild(div2);
+   div0.appendChild(div2);
   
     var form = document.createElement('form');
     form.id = "add-member";
     div2.appendChild(form);
   
      var label = document.createElement('label');
-     label.textContent = "Add Member";
+     label.textContent = "Search Member";
      form.appendChild(label);
   
      var br = document.createElement('br')
@@ -227,7 +229,7 @@ console.log(checkAdmin);
      input.type = "text";
      input.name = "userEmail";
      input.placeholder = "User Email";
-     input.size = "20";
+     input.size = "30";
      form.appendChild(input);
   
      var button = document.createElement('button');
@@ -250,7 +252,7 @@ console.log(checkAdmin);
         searchedMember.removeChild(searchedMember.firstChild);
       }
       const email = e.target.userEmail.value;
-      const res = await axios.get(`http://localhost:4000/get-user/${email}`, { headers: { "Authorization": token } });
+      const res = await axios.get(`http://13.232.159.145/get-user/${email}`, { headers: { "Authorization": token } });
       console.log(res.data);
   
       var button2 = document.createElement('button');
@@ -276,17 +278,17 @@ console.log(checkAdmin);
      gId
         }
         if (event.target.id === "addMBtn") {
-          const addM = await axios.post(`http://localhost:4000/add-new-user`, obj);
+          const addM = await axios.post(`http://13.232.159.145/add-new-user`, obj);
           var li = document.createElement('li');
           li.textContent = user;
           ul.appendChild(li);
          alert(addM.data);
          
         } else if (event.target.id === "removeMBtn") {
-          const removeM = await axios.get(`http://localhost:4000/remove-user/${userId}/${gId}`, { headers: { "Authorization": token } });
+          const removeM = await axios.get(`http://13.232.159.145/remove-user/${userId}/${gId}`, { headers: { "Authorization": token } });
           alert(removeM.data);
         }else if(event.target.id === "addAdmin"){
-            const addAdmin = await axios.get(`http://localhost:4000/add-admin/${userId}/${gId}`, { headers: { "Authorization": token } });
+            const addAdmin = await axios.get(`http://13.232.159.145/add-admin/${userId}/${gId}`, { headers: { "Authorization": token } });
             alert(addAdmin.data);
         }
         dialog.close();
@@ -304,5 +306,7 @@ console.log(checkAdmin);
 
 
 });
+
+
 
 
