@@ -42,7 +42,7 @@ async function getChats(data) {
   //   const newArrData = JSON.parse(localStorage.getItem('arrData'));
 
   //   const size = newArrData.length;
-  //     const res = await axios.get(`http://13.232.159.145/new-message/${groupId}/${size}`,{headers: {"Authorization": token}});
+  //     const res = await axios.get(`http://13.232.159.145:4000/new-message/${groupId}/${size}`,{headers: {"Authorization": token}});
   //     const newData = res.data;
   //      console.log(newData);
     //   const mes = newData.messages;
@@ -73,7 +73,7 @@ sendButton.addEventListener('submit', async (e) => {
   const obj = {
     mes
   }
-  const res = await axios.post(`http://13.232.159.145/add-message/${userId}/${groupId}`, obj);
+  const res = await axios.post(`http://13.232.159.145:4000/add-message/${userId}/${groupId}`, obj);
   sendInput.value = '';
   chatWindow.scrollTop = chatWindow.scrollHeight;
 });
@@ -101,7 +101,7 @@ createGroup.addEventListener('submit', async (e) => {
     groupName
   }
 
-  const res = await axios.post(`http://13.232.159.145/create-group/${userId}`, obj);
+  const res = await axios.post(`http://13.232.159.145:4000/create-group/${userId}`, obj);
 
   const status = res.data.status;
 
@@ -117,7 +117,7 @@ createGroup.addEventListener('submit', async (e) => {
 
 window.addEventListener("DOMContentLoaded", async () => {
   token = localStorage.getItem("token");
-  const res = await axios.get('http://13.232.159.145/show-groups', { headers: { "Authorization": token } });
+  const res = await axios.get('http://13.232.159.145:4000/show-groups', { headers: { "Authorization": token } });
 
   userId = res.data.user;
   res.data.groups.forEach(ele => {
@@ -139,13 +139,13 @@ window.addEventListener("DOMContentLoaded", async () => {
       const id = ele['id'];
        localStorage.setItem("groupId", ele['id']);
       token = localStorage.getItem("token");
-      const res = await axios.get(`http://13.232.159.145/group-messages/${id}`, { headers: { "Authorization": token } });
+      const res = await axios.get(`http://13.232.159.145:4000/group-messages/${id}`, { headers: { "Authorization": token } });
       userId = res.data.userId;
       groupId = res.data.group.id;
       groupHeading.textContent = res.data.group.groupName;
      arrMessages = [];
       getChats(res.data);
-      const checkAdmin = await axios.get(`http://13.232.159.145/isAdmin/${res.data.group.id}/${userId}`);
+      const checkAdmin = await axios.get(`http://13.232.159.145:4000/isAdmin/${res.data.group.id}/${userId}`);
       localStorage.setItem("isAdmin",checkAdmin.data.status);
       console.log(checkAdmin.data);
 
@@ -184,7 +184,7 @@ console.log(checkAdmin);
     }
     const gId = localStorage.getItem("groupId");
   
-    const resUser = await axios.get(`http://13.232.159.145/get-member/${gId}`, { headers: { "Authorization": token }});
+    const resUser = await axios.get(`http://13.232.159.145:4000/get-member/${gId}`, { headers: { "Authorization": token }});
    console.log(resUser.data);
 
    var div0 = document.createElement('div');
@@ -252,7 +252,7 @@ console.log(checkAdmin);
         searchedMember.removeChild(searchedMember.firstChild);
       }
       const email = e.target.userEmail.value;
-      const res = await axios.get(`http://13.232.159.145/get-user/${email}`, { headers: { "Authorization": token } });
+      const res = await axios.get(`http://13.232.159.145:4000/get-user/${email}`, { headers: { "Authorization": token } });
       console.log(res.data);
   
       var button2 = document.createElement('button');
@@ -278,17 +278,17 @@ console.log(checkAdmin);
      gId
         }
         if (event.target.id === "addMBtn") {
-          const addM = await axios.post(`http://13.232.159.145/add-new-user`, obj);
+          const addM = await axios.post(`http://13.232.159.145:4000/add-new-user`, obj);
           var li = document.createElement('li');
           li.textContent = user;
           ul.appendChild(li);
          alert(addM.data);
          
         } else if (event.target.id === "removeMBtn") {
-          const removeM = await axios.get(`http://13.232.159.145/remove-user/${userId}/${gId}`, { headers: { "Authorization": token } });
+          const removeM = await axios.get(`http://13.232.159.145:4000/remove-user/${userId}/${gId}`, { headers: { "Authorization": token } });
           alert(removeM.data);
         }else if(event.target.id === "addAdmin"){
-            const addAdmin = await axios.get(`http://13.232.159.145/add-admin/${userId}/${gId}`, { headers: { "Authorization": token } });
+            const addAdmin = await axios.get(`http://13.232.159.145:4000/add-admin/${userId}/${gId}`, { headers: { "Authorization": token } });
             alert(addAdmin.data);
         }
         dialog.close();
