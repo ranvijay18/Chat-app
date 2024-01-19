@@ -32,8 +32,9 @@ exports.getNewMessage = async (req,res,next) => {
 
 
 
-exports.postChats = (req,res,next) => {
+exports.postChats = async (req,res,next) => {
     const messages = req.body.mes;
+    const user = await User.findAll({where: {id: req.params.id}})
   
     Chat.create({
         messages: messages,
@@ -41,7 +42,7 @@ exports.postChats = (req,res,next) => {
        groupId: req.params.groupId
     })
     .then(message => {
-        res.status(201).json({message: message})
+        res.status(201).json({message: message , user: user[0]})
     })
     .catch(err => {
         console.log(err);

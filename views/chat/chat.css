@@ -153,12 +153,13 @@ input{
   color:blueviolet;
   text-align: center;
   background-color: white;
-  position: fixed; 
+  position: absolute; 
   margin-top: -3px;
-  min-width: 670px;
+  min-width: 690px;
   height: 50px;
-  margin-left: 320px;
+  margin-left: 318px;
  border-top-left-radius: 20px;
+ border-top-right-radius: 20px;
  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
@@ -172,10 +173,9 @@ input{
   border: 1px solid white;
   height:50px;
   width:50px;
-  margin-left: 974px;
+  margin-left: 965px;
   position:absolute;
   margin-top: -3px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 10px 10px;
   border-top-right-radius: 20px;
   font-size: xx-large;
 }
@@ -208,7 +208,7 @@ input{
 #extra-features{
   display: inline-flex;
   height: 500px;
-  width:704px;
+  width:695px;
   border-radius: 20px;
   background-color: azure;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
@@ -284,5 +284,12 @@ input{
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin-top: 10px;
   margin-left: 2px;
+}
+
+.user-joined{
+  text-align: center;
+  color: rgb(0, 255, 0);
+  font-weight: 700;
+  text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 

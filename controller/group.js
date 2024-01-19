@@ -8,7 +8,7 @@ const GroupMember = require('../models/groupMember');
 exports.getGroup = async (req,res) => {
     const user = await User.findByPk(req.user.id);
     const groups = await user.getGroups();
-    res.status(201).json({groups: groups, user: req.user.id});
+    res.status(201).json({groups: groups, user: user});
 }
 
 
@@ -54,7 +54,7 @@ exports.getMessages = async (req, res) => {
         order: [['createdAt', 'ASC']]
       });
 
-    res.status(201).json({chat: chats, group: group, userId: userId});
+    res.status(201).json({chat: chats, group: group, userId: userId , username: req.user.username});
     }
     catch(err){
         res.status(404).json("no data found");

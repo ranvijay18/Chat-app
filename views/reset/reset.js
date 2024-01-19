@@ -8,7 +8,7 @@ form.addEventListener("submit" , async (e) => {
     const obj = {
         password
     }
-    const res = axios.post('http://13.232.159.145:4000/password/newpassword', obj)
+    const res = axios.post('http://localhost:4000/password/newpassword', obj)
     console.log(res);
     window.location.href = "../login/login.html";
 })
