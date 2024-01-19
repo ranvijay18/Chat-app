@@ -79,6 +79,10 @@ sequelize.sync()
         console.log(message);
         socket.broadcast.emit('chat-message', { message: message, user: users[socket.id] ,room: room})
       })
+
+      socket.on("upload" , (mes,room) => {
+      socket.broadcast.emit("chat-file", {message:mes, user:users[socket.id],room: room})
+      })
     })
     // app.listen(process.env.PORT || 4000);
 })

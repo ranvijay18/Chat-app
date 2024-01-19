@@ -27,8 +27,14 @@
         </div>
         <div id="send-container">
             <form id="send-chat">
-            <input type="text" name="chat" id="chat" placeholder="Send a message..."  size="80" required>
+            <input type="text" name="chat" id="chat" placeholder="Send a message..."  size="44" required>
+           
             <button type="submit" id="sendBtn">Send</button>
+            </form>
+            <form id="send-file" enctype="multipart/form-data">
+                <input type="file" name="fileName" id="file" required>
+                <br>
+                <button type="submit" id="sendFb">Send File</button>
             </form>
         </div>
     </div>

@@ -9,7 +9,7 @@ body{
 }
 
 
-input{
+#send-chat input{
     height:30px;
     outline: none;
     border: 2px solid blueviolet;
@@ -155,7 +155,7 @@ input{
   background-color: white;
   position: absolute; 
   margin-top: -3px;
-  min-width: 690px;
+  min-width: 707px;
   height: 50px;
   margin-left: 318px;
  border-top-left-radius: 20px;
@@ -173,7 +173,7 @@ input{
   border: 1px solid white;
   height:50px;
   width:50px;
-  margin-left: 965px;
+  margin-left: 974px;
   position:absolute;
   margin-top: -3px;
   border-top-right-radius: 20px;
@@ -208,7 +208,7 @@ input{
 #extra-features{
   display: inline-flex;
   height: 500px;
-  width:695px;
+  width:706px;
   border-radius: 20px;
   background-color: azure;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
@@ -293,3 +293,37 @@ input{
   text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+/* input file */
+
+input[type="file"]{
+  color: black;
+}
+
+#sendFb{
+  border: none;
+  outline: none;
+  color: white;
+  background-color: blueviolet;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-top: 5px;
+}
+
+#add-member input{
+  height:30px;
+    outline: none;
+    border: 2px solid blueviolet;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+#group-name{
+  height:30px;
+    outline: none;
+    border: 2px solid blueviolet;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

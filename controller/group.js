@@ -50,7 +50,7 @@ exports.getMessages = async (req, res) => {
           attributes: ['username'],
           required: true
         }],
-        attributes: ['messages'],
+        attributes: ['messages','mesType'],
         order: [['createdAt', 'ASC']]
       });
 

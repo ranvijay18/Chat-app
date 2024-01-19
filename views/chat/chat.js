@@ -18,6 +18,7 @@ const extraFeature = document.getElementById('extra-features');
 const sendContainer = document.getElementById('send-container');
 const chatContainer = document.getElementById('chat-container');
 const flexBox = document.getElementById('flex-box');
+const sendFile = document.getElementById("send-file");
 
 let token;
 let arrMessages = [];
@@ -25,8 +26,22 @@ let userId;
 let groupId;
 
 socket.on('chat-message', res=> {
- console.log(res.room);
-  showMessages(res , res.room);
+ const obj = {
+  message: res.message.messages,
+  user: res.user,
+  mesType: res.message.mesType
+ }
+  showMessages(obj , res.room);
+})
+
+socket.on('chat-file', res => {
+  const obj = {
+  message: res.message.messages,
+  user: res.user,
+  mesType: res.message.mesType
+ }
+ console.log(obj);
+  showMessages(obj , res.room);
 })
 
 //show all messages when user login
@@ -36,7 +51,8 @@ async function getChats(data) {
   allMessages.forEach(ele => {
     let obj = {
       message: ele.messages,
-      user: ele.user.username
+      user: ele.user.username,
+      mesType: ele.mesType
     }
 
     arrMessages.push(obj);
@@ -85,15 +101,16 @@ sendButton.addEventListener('submit', async (e) => {
   e.preventDefault();
   const mes = e.target.chat.value;
   const gId = localStorage.getItem("groupId");
-  socket.emit('new-message', mes,gId);
   const obj = {
     mes
   }
   const res = await axios.post(`http://localhost:4000/add-message/${userId}/${groupId}`, obj);
   const resObj = {
     message: res.data.message.messages,
-    user: res.data.user.username
+    user: res.data.user.username,
+    mesType: res.data.message.mesType
   }
+  socket.emit('new-message', res.data.message,gId);
   showMessages(resObj, groupId);
   sendInput.value = '';
   chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -104,13 +121,42 @@ function showMessages(res, gId) {
 
   const check = localStorage.getItem("groupId");
   if(gId == check){
-  var messageContainer = document.createElement('div');
+
+    if(res.mesType === "text"){
+      var messageContainer = document.createElement('div');
   messageContainer.id = "message-container";
 
   var p = document.createElement('p');
   p.className = "message";
   p.textContent = res.user + ": " + res.message;
   messageContainer.appendChild(p);
+    }else{
+      if(res.mesType.startsWith('image')){
+        var messageContainer = document.createElement('div');
+  messageContainer.id = "message-container";
+  var p = document.createElement('p');
+  p.textContent = res.user;
+  messageContainer.appendChild(p);
+  const img = document.createElement('img')
+            img.src = res.message;
+            messageContainer.appendChild(img)
+
+  chatWindow.appendChild(messageContainer);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+      }else if(res.mesType.startsWith('video')){
+        var messageContainer = document.createElement('div');
+        messageContainer.id = "message-container";
+        const video = document.createElement('video');
+        const source = document.createElement('source');
+        source.src = res.message;
+        video.appendChild(source);
+        video.controls = true;
+        messageContainer.appendChild(video);
+
+        chatWindow.appendChild(messageContainer);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+    }
 
   chatWindow.appendChild(messageContainer);
   chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -143,6 +189,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   const res = await axios.get('http://localhost:4000/show-groups', { headers: { "Authorization": token } });
 
   userId = res.data.user.id;
+  localStorage.setItem("username", res.data.user.username);
   socket.emit('username', res.data.user.username);
   res.data.groups.forEach(ele => {
 
@@ -168,6 +215,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       groupId = res.data.group.id;
       groupHeading.textContent = res.data.group.groupName;
       arrMessages = [];
+      console.log(res.data);
       getChats(res.data);
       const room = res.data.group.id;
       socket.emit('join-room', room);
@@ -341,6 +389,24 @@ extraDetails.addEventListener("click", async (e) => {
 
 });
 
+//send files
+sendFile.addEventListener('submit' , async (e) => {
+   e.preventDefault();
+   const fileU = document.getElementById('file');
+   const file = e.target.file.files[0];
+   const formData = new FormData();
+    formData.append('file', file)
+   const gId = localStorage.getItem("groupId");
+   const res = await axios.post(`http://localhost:4000/message/upload/${gId}/${userId}`, formData);
+  socket.emit("upload", res.data.message, gId);
+  const obj = {
+    message: res.data.message.messages,
+    user: res.data.user.username,
+    mesType: res.data.message.mesType
+  }
+  console.log(obj);
+  showMessages(obj, gId);
+})
 
 
 
