@@ -2,6 +2,34 @@ const Chat = require('../models/chats');
 const User = require('../models/user');
 const Group = require('../models/group');
 const {uploadToS3} = require('../service/s3Services')
+const cron = require('node-cron');
+
+cron.schedule('0 0 * * *', async () => {
+  try {
+    await sequelize.sync();
+  
+    const oldChats = await Chat.findAll({
+      where: {
+        createdAt: {
+          [Sequelize.Op.lt]: Sequelize.literal('DATE_SUB(NOW(), INTERVAL 1 DAY)'),
+        },
+      },
+    });
+  
+    await ArchivedChat.bulkCreate(oldChats);
+    await Chat.destroy({
+      where: {
+        id: {
+          [Sequelize.Op.in]: oldChats.map((chat) => chat.id),
+        },
+      },
+    });
+  
+    console.log('Chats archived and deleted successfully.');
+  } catch (error) {
+    console.error('Error archiving and deleting chats:', error);
+  }
+});
 
 
 
@@ -13,7 +41,7 @@ exports.getNewMessage = async (req,res,next) => {
           where: {
             [Sequelize.and]: [
               { groupId : groupId },
-              { id: { [Op.gt]: mesId } } // Greater than 25
+              { id: { [Op.gt]: mesId } } 
             ]
           },
           include: [{

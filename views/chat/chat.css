@@ -36,21 +36,22 @@ body{
     border-radius: 20px;
     background-color: azure;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-  }
+}
   
-  #chat-window {
+#chat-window {
     margin-top: 50px;
     flex: 1; 
     overflow-y: auto;
     padding: 10px;
     border-radius: 20px;
     background-image: url("../img/bg1.jpg");
-  }
-  #chat-window::-webkit-scrollbar {
+}
+
+#chat-window::-webkit-scrollbar {
     display: none; 
-  }
+}
   
-  #send-container {
+#send-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -60,7 +61,7 @@ body{
     top: 0; 
     width: 100%;
     z-index: 1;
-  }
+}
   
 
   p{
