@@ -60,9 +60,7 @@ async function getChats(data) {
   const gId = localStorage.getItem("groupId");
   arrMessages.forEach(ele => {
     showMessages(ele, gId);
-  })
-
-  localStorage.setItem('arrData', JSON.stringify(arrMessages));
+  });
 
 
 

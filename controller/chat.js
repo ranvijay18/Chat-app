@@ -3,11 +3,12 @@ const User = require('../models/user');
 const Group = require('../models/group');
 const {uploadToS3} = require('../service/s3Services')
 const cron = require('node-cron');
+const ArchivedChat = require('../models/ArchivedChat');
+const Sequelize = require('sequelize');
+const sequelize = require('../util/database');
 
-cron.schedule('0 0 * * *', async () => {
-  try {
-    await sequelize.sync();
-  
+cron.schedule('* * * * *', async () => {
+
     const oldChats = await Chat.findAll({
       where: {
         createdAt: {
@@ -15,20 +16,22 @@ cron.schedule('0 0 * * *', async () => {
         },
       },
     });
-  
-    await ArchivedChat.bulkCreate(oldChats);
-    await Chat.destroy({
-      where: {
-        id: {
-          [Sequelize.Op.in]: oldChats.map((chat) => chat.id),
+
+    oldChats.forEach(async(ele) => {
+      await ArchivedChat.create({
+        id: ele.id,
+        messages: ele.messages,
+        mesType: ele.mesType,
+        userId: ele.userId,
+        groupId: ele.groupId
+      })
+      await Chat.destroy({
+        where: {
+          id: ele.id
         },
-      },
-    });
-  
-    console.log('Chats archived and deleted successfully.');
-  } catch (error) {
-    console.error('Error archiving and deleting chats:', error);
-  }
+      });
+    })
+      
 });
 
 
@@ -51,7 +54,6 @@ exports.getNewMessage = async (req,res,next) => {
           }],
           attributes: ['messages']
         });
-     console.log(newMessage[0].user.username);
             res.status(201).json(newMessage[0]);
       } catch (error) {
         
@@ -81,6 +83,8 @@ exports.postChats = async (req,res,next) => {
 
 
 exports.postFile = async (req,res) => {
+
+  try{
   const fileName =new Date() + req.file.originalname
   const mimeType = req.file.mimetype
   const fileData = req.file.buffer
@@ -96,7 +100,12 @@ exports.postFile = async (req,res) => {
 })
 .then(message => {
     res.status(201).json({message: message , user: user[0]})
+}).catch(err => {
+  console.log(err)
 })
+  }catch(err){
+    console.log(err);
+  }
  
 }
 

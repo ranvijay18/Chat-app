@@ -6,14 +6,19 @@ const ArchivedChat = sequelize.define('oldchat', {
     id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
     },
     messages: {
         type: Sequelize.TEXT,
     },
     mesType: {
         type: Sequelize.STRING,
+    },
+    userId:{
+        type: Sequelize.STRING
+    },
+    groupId:{
+        type: Sequelize.STRING
     }
 })
 
