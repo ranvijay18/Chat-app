@@ -19,6 +19,8 @@ router.get('/remove-user/:userId/:gId',auth, groupController.removeUser);
 
 router.get('/add-admin/:userId/:gId', auth, groupController.addAdmin);
 
+router.get('/remove-admin/:userId/:gId', auth, groupController.removeAdmin);
+
 router.get('/isAdmin/:groupId/:userId', groupController.getIsAdmin);
 
 

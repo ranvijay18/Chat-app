@@ -10,7 +10,7 @@ const {auth} = require('../middleware/auth');
 
 
 
-router.get('/new-message/:groupId/:size',auth, chatController.getNewMessage);
+// router.get('/new-message/:groupId/:size',auth, chatController.getNewMessage);
 
 router.post('/add-message/:id/:groupId', chatController.postChats);
 

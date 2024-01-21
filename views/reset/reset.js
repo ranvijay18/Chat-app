@@ -9,6 +9,6 @@ form.addEventListener("submit" , async (e) => {
         password
     }
     const res = axios.post('http://localhost:4000/password/newpassword', obj)
-    console.log(res);
+    alert("Your password changed successfully");
     window.location.href = "../login/login.html";
 })

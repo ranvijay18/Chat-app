@@ -19,7 +19,7 @@ async function check(e){
 
 
     if(password != confirmPassword){
-        console.log("Mismatch in Password");
+        alert("Mismatch in Password");
     }else{
 
 
@@ -38,9 +38,9 @@ async function check(e){
         alert("User is Logged In");
         window.location.href = ("../chat/chat.html");
     }else if(data === false){
-        console.log("Wrong Password");
+        alert("Wrong Password");
     }else{
-        console.log("User not found")
+        alert("User not found");
     }
 }
 }

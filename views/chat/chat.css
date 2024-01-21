@@ -65,20 +65,40 @@ body{
   
 
   p{
-     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
      color: black;  
   }
 
-  #message-container {
+  #incoming-message-container {
     display: block; /* Allow for flexible width */
     padding: 0.1px 10px;
     width: 30%;
     border-radius: 8px;
     background-color: #fafafa;
-    margin-bottom: 10px;
+    margin-top: 30px;
     word-wrap: break-word; /* Prevent long words from overflowing */
     box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
   }
+
+  #outgoing-message-container{
+    margin-top: 30px;
+    display: block; 
+    padding: 0.1px 10px;
+    width: 30%;
+    border-radius: 8px;
+    background-color: #7bf39f;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
+   margin-left: 450px;
+  }
+
+#user-name{
+  color:rgb(255, 0, 111);
+  font-size: small;
+  margin-top: -20px;
+  font-weight: 700;
+}
 
 .group-list{
    width:300px;
@@ -216,7 +236,7 @@ body{
 }
 
 #add-member{
-  margin-top: 80px;
+  /* margin-top: 80px; */
   margin-left: 30px;
 }
 
@@ -256,11 +276,13 @@ body{
     outline: none;
     color: white;
     background-color: rgb(6, 242, 46);
-    padding: 10px 10px;
+    padding: 10px 50px;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
     margin-top: 10px;
-    margin-left: 2px;
+    margin-right: 50px;
+    margin-left: 60px;
+    font-size: 18px;
 }
 
 #removeMBtn{
@@ -268,11 +290,12 @@ body{
   outline: none;
   color: white;
   background-color: rgb(242, 16, 16);
-  padding: 10px 10px;
+  padding: 10px 50px;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
   margin-top: 10px;
   margin-left: 2px;
+  font-size: 18px;
 }
 
 #addAdmin{
@@ -280,18 +303,19 @@ body{
   outline: none;
   color: white;
   background-color: rgb(242, 204, 16);
-  padding: 10px 10px;
+  padding: 10px 50px;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  margin-top: 10px;
-  margin-left: 2px;
+  /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+  margin-top: 30px;
+  /* margin-left: 2px; */
+  margin-right: 100px;
+  font-size: 18px;
 }
 
 .user-joined{
   text-align: center;
   color: rgb(0, 255, 0);
   font-weight: 700;
-  text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 /* input file */
@@ -321,6 +345,65 @@ input[type="file"]{
 }
 
 #group-name{
+  height:30px;
+    outline: none;
+    border: 2px solid blueviolet;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+.member-btn{
+  color:white;
+  background-color: #fafafa00;
+  padding: 8px;
+  font-size: 16px;
+  border: none;
+}
+
+.member-btn:hover{
+  color:bisque;
+  font-size: larger;
+}
+
+dialog{
+  padding: 80px;
+  text-align: center;
+  border: none;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: rgba(252, 252, 252, 0.912);
+  opacity: 1;
+    transform: scale(1);
+    animation: bounceIn 0.5s; 
+}
+
+@keyframes bounceIn {
+  0% {
+      transform: scale(0.8);
+  }
+  50% {
+      transform: scale(1.1); /* Overshoot slightly */
+  }
+  100% {
+      transform: scale(1); /* Settle back to normal size */
+  }
+}
+
+#groupLink{
+  margin-left: 50px;
+  color:blue;
+  margin-top: -15px;
+}
+
+#groupLinkHead{
+  margin-top: 80px;
+  margin-left:50px;
+  font-weight:700;
+}
+
+#join-group-name{
   height:30px;
     outline: none;
     border: 2px solid blueviolet;

@@ -1,61 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="chat.css">
     <title>Chat Window</title>
 </head>
+
 <body>
 
     <div class="head">
         <h1>Let's Chat</h1>
     </div>
-    <div class ="flex-box">
-    <div class="group-list">
-        <h1 style="text-align: center; margin-top: 0px;">Groups</h1>
-        <div id="show-groups">
-          
-        </div>
-    </div>
-    <h1 id="group-head-name"> Select a group</h1>
-    <button id="details">+</button>
-    <div id="chat-container">
-        <div id="chat-window">
-            <div id="message-container">
+    <div class="flex-box">
+        <div class="group-list">
+            <h1 style="text-align: center; margin-top: 0px;">Groups</h1>
+            <div id="show-groups">
+
             </div>
         </div>
-        <div id="send-container">
-            <form id="send-chat">
-            <input type="text" name="chat" id="chat" placeholder="Send a message..."  size="44" required>
-           
-            <button type="submit" id="sendBtn">Send</button>
-            </form>
-            <form id="send-file" enctype="multipart/form-data">
-                <input type="file" name="fileName" id="file" required>
+        <h1 id="group-head-name"> Select a group</h1>
+        <button id="details">+</button>
+        <div id="chat-container">
+            <div id="chat-window">
                 <br>
-                <button type="submit" id="sendFb">Send File</button>
-            </form>
-        </div>
-    </div>
- 
+                <div id="incoming-message-container">
+                </div>
+                <div id="outgoing-message-container">
+                </div>
+            </div>
+            <div id="send-container">
+                <form id="send-chat">
+                    <input type="text" name="chat" id="chat" placeholder="Send a message..." size="44" required>
+
+                    <button type="submit" id="sendBtn">Send</button>
+                </form>
+                <form id="send-file" enctype="multipart/form-data">
+                    <input type="file" name="fileName" id="file" required>
+                    <br>
+                    <button type="submit" id="sendFb">Send File</button>
+                </form>
+            </div>
+            </div>
+
         <!-- <div id="extra-features">
             <div id="members">
                 <h1>Members</h1>
-                <ul>
-                <li>Ranvijay</li>
-                <li>Ravi</li>
-                <li>Ranvijay</li>
-                <li>Ravi</li>
-                <li>Ranvijay</li>
-                <li>Ravi</li>
-                <li>Ranvijay</li>
-                <li>Ravi</li>
-                <li>Ranvijay</li>
-                <li>Ravi</li>
-                <li>Ranvijay</li>
-                <li>Ravi</li>
-                </ul>
+                <div id="member-list">
+                    <button class="member-btn">Ranvijay</button>
+                </div>
                 
             </div>
             <div id="addingFeature">
@@ -70,31 +64,37 @@
                 </div>
             </div>
         </div> -->
+       
 
-    <div class="group">
-        <h1 style="text-align: center; margin-top: 50px;">Create Group</h1>
-        <form id="create-group">
-            <input type="text" name="group" id="group-name" size="30" placeholder="Group Name" required>
-            <button id="add-group" type="submit">Create Group</button>
-        </form>
 
-        <h1 style="text-align: center; margin-top: 50px;">Join Group</h1>
-        <form id="join-group">
-            <input type="text" name="joinGroup" id="join-group-name" size="30" placeholder="Group Name" required>
-            <button id="add-group" type="submit">Join Group</button>
-        </form>
+                <div class="group">
+                    <h1 style="text-align: center; margin-top: 50px;">Create Group</h1>
+                    <form id="create-group">
+                        <input type="text" name="group" id="group-name" size="30" placeholder="Group Name" required>
+                        <button id="add-group" type="submit">Create Group</button>
+                    </form>
+
+                    <h1 style="text-align: center; margin-top: 50px;">Join Group</h1>
+                    <form id="join-group">
+                        <input type="text" name="joinGroup" id="join-group-name" size="30" placeholder="Group Link"
+                            required>
+                        <button id="add-group" type="submit">Join Group</button>
+                    </form>
+                </div>
     </div>
-</div>
-    
 
 
 
 
 
-  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
-        integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js" integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="chat.js"></script>
+
+            <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+                integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"
+                integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="chat.js"></script>
 </body>
+
 </html>

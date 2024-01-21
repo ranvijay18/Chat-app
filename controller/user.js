@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const Sib = require('sib-api-v3-sdk');
 const Forget = require('../models/forget');
 const Group = require('../models/group');
+const Sequelize = require('sequelize');
 require("dotenv").config();
 
 let testUserId;
@@ -14,6 +15,7 @@ async function isExists(emailSearch) {
     const data = await User.findAll({ where: { email: emailSearch } })
 
     if (data.length > 0) {
+        testUserId = data[0].id;
         return data[0];
     } else {
         return false;
@@ -80,6 +82,7 @@ exports.postForgetPassword = async (req, res, next) => {
     const email = req.body.email;
 
     const user = await isExists(email);
+    testUserId = user.id;
 
     if (user === false) {
         res.status(201).json({ status: false, message: "User not exixts!!!" })
@@ -144,7 +147,6 @@ exports.getForget = async (req, res, next) => {
 
 exports.postResetPassword = async (req, res, next) => {
     const password = req.body.password;
-
     const users = await User.findAll({ where: { id: testUserId } })
     const user = users[0]
 
@@ -169,9 +171,27 @@ exports.getUser = (req, res) => {
 
 exports.getMember= async (req,res) => {
 
-    const group = await Group.findByPk(req.params.gId);
-    const users = await group.getUsers();
-   
-        res.status(201).json(users);
-    
+   const notAdmin = await Group.findByPk(req.params.gId, {
+    include: [
+        {
+            model: User,
+            through: {
+                where: { isAdmin: false }
+            }
+        }
+    ]
+    })
+
+    const admins = await Group.findByPk(req.params.gId, {
+        include: [
+            {
+                model: User,
+                through: {
+                    where: { isAdmin: true }
+                },
+            }
+        ]
+        })
+
+        res.status(201).json({nA : notAdmin, admins: admins});
 }

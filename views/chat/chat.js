@@ -25,23 +25,22 @@ let arrMessages = [];
 let userId;
 let groupId;
 
-socket.on('chat-message', res=> {
- const obj = {
-  message: res.message.messages,
-  user: res.user,
-  mesType: res.message.mesType
- }
-  showMessages(obj , res.room);
+socket.on('chat-message', res => {
+  const obj = {
+    message: res.message.messages,
+    user: res.user,
+    mesType: res.message.mesType
+  }
+  showMessages(obj, res.room);
 })
 
 socket.on('chat-file', res => {
   const obj = {
-  message: res.message.messages,
-  user: res.user,
-  mesType: res.message.mesType
- }
- console.log(obj);
-  showMessages(obj , res.room);
+    message: res.message.messages,
+    user: res.user,
+    mesType: res.message.mesType
+  }
+  showMessages(obj, res.room);
 })
 
 //show all messages when user login
@@ -72,7 +71,6 @@ async function getChats(data) {
   //   const size = newArrData.length;
   //     const res = await axios.get(`http://localhost:4000/new-message/${groupId}/${size}`,{headers: {"Authorization": token}});
   //     const newData = res.data;
-  //      console.log(newData);
   //   const mes = newData.messages;
   //   const user = newData.user.username;
 
@@ -108,7 +106,7 @@ sendButton.addEventListener('submit', async (e) => {
     user: res.data.user.username,
     mesType: res.data.message.mesType
   }
-  socket.emit('new-message', res.data.message,gId);
+  socket.emit('new-message', res.data.message, gId);
   showMessages(resObj, groupId);
   sendInput.value = '';
   chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -118,47 +116,104 @@ sendButton.addEventListener('submit', async (e) => {
 function showMessages(res, gId) {
 
   const check = localStorage.getItem("groupId");
-  if(gId == check){
-
-    if(res.mesType === "text"){
-      var messageContainer = document.createElement('div');
-  messageContainer.id = "message-container";
-
-  var p = document.createElement('p');
-  p.className = "message";
-  p.textContent = res.user + ": " + res.message;
-  messageContainer.appendChild(p);
-    }else{
-      if(res.mesType.startsWith('image')){
+  const User = localStorage.getItem("username");
+  if (gId == check) {
+    if (User === res.user) {
+      if (res.mesType === "text") {
         var messageContainer = document.createElement('div');
-  messageContainer.id = "message-container";
-  var p = document.createElement('p');
-  p.textContent = res.user;
-  messageContainer.appendChild(p);
-  const img = document.createElement('img')
-            img.src = res.message;
-            messageContainer.appendChild(img)
+        messageContainer.id = "outgoing-message-container";
+        var p = document.createElement('p');
+        p.id = "user-name";
+        p.textContent = res.user;
+        messageContainer.appendChild(p);
 
-  chatWindow.appendChild(messageContainer);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-      }else if(res.mesType.startsWith('video')){
+        var p1 = document.createElement('p');
+        p1.className = "message";
+        p1.textContent = res.message;
+        messageContainer.appendChild(p1);
+      } else {
+        if (res.mesType.startsWith('image')) {
+          var messageContainer = document.createElement('div');
+          messageContainer.id = "outgoing-message-container";
+          var p = document.createElement('p');
+          p.id = "user-name";
+          p.textContent = res.user;
+          messageContainer.appendChild(p);
+          const img = document.createElement('img')
+          img.src = res.message;
+          messageContainer.appendChild(img)
+
+          chatWindow.appendChild(messageContainer);
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+        } else if (res.mesType.startsWith('video')) {
+          var messageContainer = document.createElement('div');
+          messageContainer.id = "outgoing-message-container";
+          var p = document.createElement('p');
+          p.id = "user-name";
+          p.textContent = res.user;
+          messageContainer.appendChild(p);
+          const video = document.createElement('video');
+          const source = document.createElement('source');
+          source.src = res.message;
+          video.appendChild(source);
+          video.controls = true;
+          messageContainer.appendChild(video);
+
+          chatWindow.appendChild(messageContainer);
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+      }
+    } else {
+      if (res.mesType === "text") {
         var messageContainer = document.createElement('div');
-        messageContainer.id = "message-container";
-        const video = document.createElement('video');
-        const source = document.createElement('source');
-        source.src = res.message;
-        video.appendChild(source);
-        video.controls = true;
-        messageContainer.appendChild(video);
+        messageContainer.id = "incoming-message-container";
 
-        chatWindow.appendChild(messageContainer);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+        var p = document.createElement('p');
+        p.id = "user-name";
+        p.textContent = res.user;
+        messageContainer.appendChild(p);
+
+        var p1 = document.createElement('p');
+        p1.className = "message";
+        p1.textContent = res.message;
+        messageContainer.appendChild(p1);
+      } else {
+        if (res.mesType.startsWith('image')) {
+          var messageContainer = document.createElement('div');
+          messageContainer.id = "incoming-message-container";
+          var p = document.createElement('p');
+          p.id = "user-name";
+          p.textContent = res.user;
+          messageContainer.appendChild(p);
+          const img = document.createElement('img')
+          img.src = res.message;
+          messageContainer.appendChild(img)
+
+          chatWindow.appendChild(messageContainer);
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+        } else if (res.mesType.startsWith('video')) {
+          var messageContainer = document.createElement('div');
+          messageContainer.id = "incoming-message-container";
+          var p = document.createElement('p');
+          p.id = "user-name";
+          p.textContent = res.user;
+          messageContainer.appendChild(p);
+          const video = document.createElement('video');
+          const source = document.createElement('source');
+          source.src = res.message;
+          video.appendChild(source);
+          video.controls = true;
+          messageContainer.appendChild(video);
+
+          chatWindow.appendChild(messageContainer);
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
       }
     }
 
-  chatWindow.appendChild(messageContainer);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-}
+    chatWindow.appendChild(messageContainer);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
 }
 
 //create group
@@ -213,20 +268,27 @@ window.addEventListener("DOMContentLoaded", async () => {
       groupId = res.data.group.id;
       groupHeading.textContent = res.data.group.groupName;
       arrMessages = [];
-      console.log(res.data);
       getChats(res.data);
       const room = res.data.group.id;
       socket.emit('join-room', room);
-     
+      socket.on("join-mes", res => {
+        if(groupId === res.room){
+        var p = document.createElement('p');
+        p.className = "user-joined";
+        p.textContent = res.user+" joined";
+        chatWindow.appendChild(p);
+      }
+      })
+
       var p = document.createElement('p');
       p.className = "user-joined";
-      p.textContent =  "You joined";
+      p.textContent = "You joined";
       chatWindow.appendChild(p);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
 
 
       const checkAdmin = await axios.get(`http://localhost:4000/isAdmin/${res.data.group.id}/${userId}`);
       localStorage.setItem("isAdmin", checkAdmin.data.status);
-      console.log(checkAdmin.data);
 
     })
   })
@@ -237,7 +299,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 //join group
 joinGroup.addEventListener('submit', async (e) => {
   e.preventDefault();
-  console.log(userId);
   const groupLink = e.target.joinGroup.value;
   token = localStorage.getItem("token");
 
@@ -247,6 +308,7 @@ joinGroup.addEventListener('submit', async (e) => {
 
   if (status) {
     alert("You join to group successfully");
+    location.reload();
   } else {
     alert("Something gone wrong");
   }
@@ -257,7 +319,6 @@ joinGroup.addEventListener('submit', async (e) => {
 extraDetails.addEventListener("click", async (e) => {
   e.preventDefault();
   const checkAdmin = localStorage.getItem("isAdmin");
-  console.log(checkAdmin);
   if (checkAdmin === "true") {
     while (chatContainer.firstChild) {
       chatContainer.removeChild(chatContainer.firstChild);
@@ -265,7 +326,6 @@ extraDetails.addEventListener("click", async (e) => {
     const gId = localStorage.getItem("groupId");
 
     const resUser = await axios.get(`http://localhost:4000/get-member/${gId}`, { headers: { "Authorization": token } });
-    console.log(resUser.data);
 
     var div0 = document.createElement('div');
     div0.id = "extra-features";
@@ -278,21 +338,111 @@ extraDetails.addEventListener("click", async (e) => {
     h1.textContent = "Members";
     div1.appendChild(h1);
 
-    var ul = document.createElement('ul');
+    var div = document.createElement('div');
+    div.id = "members-lists";
 
     //add member list
-    resUser.data.forEach(ele => {
-      var li = document.createElement('li');
-      li.textContent = ele.username;
-      ul.appendChild(li);
+    resUser.data.admins.users.forEach(ele => {
+      var button = document.createElement('button');
+      button.className = "member-btn";
+      button.id=ele.id;
+      button.style.color = "rgb(0, 255, 0)";
+      button.textContent = ele.username;
+      div.appendChild(button);
+
+      var br = document.createElement('br');
+      div.appendChild(br);
+
+      button.addEventListener('click', () => {
+        const dialog = document.createElement("dialog");
+        dialog.innerHTML = `
+        <p>Would you like to add or remove ${ele.username}?</p>
+        <button id="addAdmin">Remove as Admin</button>
+        <button id="removeMBtn">Remove</button>
+      `;
+
+      dialog.addEventListener("click", async (event) => {
+        const userId = ele.id;
+        const gId = localStorage.getItem("groupId");
+        const obj = {
+          userId,
+          gId
+        }
+        if (event.target.id === "removeMBtn") {
+          const removeM = await axios.get(`http://localhost:4000/remove-user/${userId}/${gId}`, { headers: { "Authorization": token } });
+          div.removeChild(button);
+          alert(removeM.data);
+        } else if (event.target.id === "addAdmin") {
+          const addAdmin = await axios.get(`http://localhost:4000/remove-admin/${userId}/${gId}`, { headers: { "Authorization": token } });
+          button.style.color = "white";
+          alert(addAdmin.data);
+        }
+        dialog.close();
+      });
+
+      document.body.appendChild(dialog);
+      dialog.showModal();
+    })
+  })
+
+    resUser.data.nA.users.forEach(ele => {
+      var button = document.createElement('button');
+      button.className = "member-btn";
+      button.id=ele.id;
+      button.textContent = ele.username;
+      div.appendChild(button);
+
+      var br = document.createElement('br');
+      div.appendChild(br);
+
+      button.addEventListener('click', () => {
+        const dialog = document.createElement("dialog");
+        dialog.innerHTML = `
+        <p>Would you like to add or remove ${ele.username}?</p>
+        <button id="addAdmin">Make Admin</button>
+        <button id="removeMBtn">Remove</button>
+      `;
+
+      dialog.addEventListener("click", async (event) => {
+        const userId = ele.id;
+        const gId = localStorage.getItem("groupId");
+        const obj = {
+          userId,
+          gId
+        }
+        if (event.target.id === "removeMBtn") {
+          const removeM = await axios.get(`http://localhost:4000/remove-user/${userId}/${gId}`, { headers: { "Authorization": token } });
+          div.removeChild(button);
+          alert(removeM.data);
+        } else if (event.target.id === "addAdmin") {
+          const addAdmin = await axios.get(`http://localhost:4000/add-admin/${userId}/${gId}`, { headers: { "Authorization": token } });
+          button.style.color = "rgb(0, 255, 0)";
+          alert(addAdmin.data);
+        }
+        dialog.close();
+      });
+
+      document.body.appendChild(dialog);
+      dialog.showModal();
+    })
     })
 
-    div1.appendChild(ul);
+    div1.appendChild(div);
     div0.appendChild(div1);
 
     var div2 = document.createElement('div');
     div2.id = "addingFeature";
     div0.appendChild(div2);
+
+    var p = document.createElement('p');
+    p.id="groupLinkHead";
+    p.textContent = "Group Link:-";
+    div2.appendChild(p);
+
+    var p = document.createElement('p');
+    p.id="groupLink";
+    p.textContent = "http://localhost:4000/join-group/"+ groupId;
+    div2.appendChild(p);
 
     var form = document.createElement('form');
     form.id = "add-member";
@@ -333,7 +483,6 @@ extraDetails.addEventListener("click", async (e) => {
       }
       const email = e.target.userEmail.value;
       const res = await axios.get(`http://localhost:4000/get-user/${email}`, { headers: { "Authorization": token } });
-      console.log(res.data);
 
       var button2 = document.createElement('button');
       button2.id = res.data.id;
@@ -346,8 +495,6 @@ extraDetails.addEventListener("click", async (e) => {
         dialog.innerHTML = `
         <p>Would you like to add or remove ${user}?</p>
         <button id="addMBtn">Add</button>
-        <button id="addAdmin">Make Admin</button>
-        <button id="removeMBtn">Remove</button>
       `;
 
         dialog.addEventListener("click", async (event) => {
@@ -359,17 +506,18 @@ extraDetails.addEventListener("click", async (e) => {
           }
           if (event.target.id === "addMBtn") {
             const addM = await axios.post(`http://localhost:4000/add-new-user`, obj);
-            var li = document.createElement('li');
-            li.textContent = user;
-            ul.appendChild(li);
-            alert(addM.data);
+            var button = document.createElement('button');
+            alert(addM.data.message);
+            if(addM.data.status == true){
+      button.className = "member-btn";
+      button.id=res.data.id;
+      button.textContent = res.data.username;
+      div.appendChild(button);
 
-          } else if (event.target.id === "removeMBtn") {
-            const removeM = await axios.get(`http://localhost:4000/remove-user/${userId}/${gId}`, { headers: { "Authorization": token } });
-            alert(removeM.data);
-          } else if (event.target.id === "addAdmin") {
-            const addAdmin = await axios.get(`http://localhost:4000/add-admin/${userId}/${gId}`, { headers: { "Authorization": token } });
-            alert(addAdmin.data);
+      var br = document.createElement('br');
+      div.appendChild(br);
+            }
+
           }
           dialog.close();
         });
@@ -379,6 +527,8 @@ extraDetails.addEventListener("click", async (e) => {
       })
 
     })
+
+    
   } else {
     alert("You are not a admin of this group");
   }
@@ -388,21 +538,20 @@ extraDetails.addEventListener("click", async (e) => {
 });
 
 //send files
-sendFile.addEventListener('submit' , async (e) => {
-   e.preventDefault();
-   const fileU = document.getElementById('file');
-   const file = e.target.file.files[0];
-   const formData = new FormData();
-    formData.append('file', file)
-   const gId = localStorage.getItem("groupId");
-   const res = await axios.post(`http://localhost:4000/message/upload/${gId}/${userId}`, formData);
+sendFile.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fileU = document.getElementById('file');
+  const file = e.target.file.files[0];
+  const formData = new FormData();
+  formData.append('file', file)
+  const gId = localStorage.getItem("groupId");
+  const res = await axios.post(`http://localhost:4000/message/upload/${gId}/${userId}`, formData);
   socket.emit("upload", res.data.message, gId);
   const obj = {
     message: res.data.message.messages,
     user: res.data.user.username,
     mesType: res.data.message.mesType
   }
-  console.log(obj);
   showMessages(obj, gId);
 })
 
