@@ -28,7 +28,7 @@ async function check(e){
         phone,
         password
     }
-    const res = await axios.post('http://localhost:4000/login', obj);
+    const res = await axios.post('http://13.201.137.165:4000/login', obj);
 
     const data = res.data.status;
     const tokenData = res.data.token;

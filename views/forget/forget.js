@@ -9,5 +9,5 @@ form.addEventListener('submit' , async (e) => {
     const obj ={
         email
     }
-   const res = await axios.post('http://localhost:4000/password/forgetpassword', obj)
+   const res = await axios.post('http://13.201.137.165:4000/password/forgetpassword', obj)
 })

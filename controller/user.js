@@ -94,7 +94,7 @@ exports.postForgetPassword = async (req, res, next) => {
             isActive: true,
             userId: user.id
         })
-        const link = "http://localhost:4000/password/resetpassword/" + forget.id
+        const link = "http://13.201.137.165:4000/password/resetpassword/" + forget.id
 
         const client = Sib.ApiClient.instance;
         const apiKey = client.authentications['api-key'];
@@ -141,7 +141,7 @@ exports.getForget = async (req, res, next) => {
     if (isActive == true) {
         userForget.isActive = false;
         await userForget.save({ fields: ['isActive'] });
-        res.redirect('http://127.0.0.1:5500/views/reset/reset.html');
+        res.redirect('http://13.201.137.165:4000/views/reset/reset.html');
     }
 }
 
